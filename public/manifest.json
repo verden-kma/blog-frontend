@@ -1,0 +1,6 @@
+{
+  "short_name": "React App",
+  "name": "Blog frontend",
+  "start_url": ".",
+  "display": "standalone"
+}

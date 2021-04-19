@@ -1,0 +1,90 @@
+#content {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#footer {
+    flex: 1;
+
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+#footer-content {
+    flex-grow: 1;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+#handshake {
+    font-size: 9em;
+}
+
+.faculty-name {
+    font-size: 5em;
+}
+
+.trap {
+    font-size: 3em;
+}
+
+.thumbnail-image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.digest-container {
+    position: relative;
+}
+
+.digest-container:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.digest-container img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+[type=radio] + img {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+}
+
+[type=radio]:checked + img {
+    opacity: 1;
+}
+
+.even-navbar {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+}
+
+.file-label {
+    flex: 1 0 max-content;
+    text-align: center;
+    font-size: 3em;
+}

@@ -1,0 +1,19 @@
+.publisher-stats-split {
+    width: 100%;
+    border: 1px solid grey;
+}
+
+.follow-btn {
+    align-Items: flex-end;
+    width: 75%;
+}
+
+.follow-btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.vertical-flex {
+    display: flex;
+    flex-direction: column;
+}
