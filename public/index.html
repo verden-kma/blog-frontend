@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="
+        default-src 'none';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        " http-equiv="Content-Security-Policy"/>
     <link href="%PUBLIC_URL%/logo192.png" rel="apple-touch-icon"/>
     <!--
       manifest.json provides metadata used when your web app is installed on a
