@@ -13,6 +13,7 @@ import {
     Row,
     Spinner
 } from "react-bootstrap";
+import {backendUrl} from "../constants";
 
 interface IState {
     email: string,
@@ -54,7 +55,7 @@ class Registration extends React.Component<any, IState> {
             return;
         }
         this.setState({hasSentRequest: true});
-        axios.post("http://localhost:8080/users", {
+        axios.post(`${backendUrl}/users`, {
             email: this.state.email,
             username: this.state.username,
             password: this.state.password,

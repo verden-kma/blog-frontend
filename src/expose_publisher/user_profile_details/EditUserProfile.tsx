@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import {Redirect} from "react-router";
 import DropdownItem from "react-bootstrap/DropdownItem";
+import {backendUrl} from "../../constants";
 
 interface IState {
     oldStatus?: string,
@@ -62,7 +63,7 @@ class EditUserProfile extends React.Component<IAuthProvider, IState> {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/users/${this.props.getAuth().username}`, {
+        axios.get(`${backendUrl}/users/${this.props.getAuth().username}`, {
             headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
         }).then(success => {
             this.setState({
@@ -105,7 +106,7 @@ class EditUserProfile extends React.Component<IAuthProvider, IState> {
         }
         if (Object.keys(textUpdate).length > 0) {
             const textPromise: Promise<any> =
-                axios.patch(`http://localhost:8080/users/details`, textUpdate, {
+                axios.patch(`${backendUrl}/users/details`, textUpdate, {
                     headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
                 }).then(() => {
                 }, error => console.log(error));
@@ -123,7 +124,7 @@ class EditUserProfile extends React.Component<IAuthProvider, IState> {
 
     updateImage(mode: AlterOptions, urlSuffix: string, newImage?: File): Promise<any> | undefined {
         if (mode === AlterOptions.DELETE) {
-            return axios.delete(`http://localhost:8080/users/${urlSuffix}`,
+            return axios.delete(`${backendUrl}/users/${urlSuffix}`,
                 {
                     headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
                 }).then(() => {
@@ -131,7 +132,7 @@ class EditUserProfile extends React.Component<IAuthProvider, IState> {
         } else if (mode === AlterOptions.UPDATE && newImage !== undefined) {
             let body = new FormData();
             body.append("image", newImage);
-            return axios.put(`http://localhost:8080/users/${urlSuffix}`, body, {
+            return axios.put(`${backendUrl}/users/${urlSuffix}`, body, {
                 headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
             }).then(() => {
             }, error => console.log(error))

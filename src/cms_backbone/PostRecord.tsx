@@ -16,6 +16,7 @@ import {
     Spinner
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/ModalHeader";
+import {backendUrl} from "../constants";
 
 interface IState {
     caption: string,
@@ -68,13 +69,13 @@ class PostRecord extends React.Component<IAuthProvider, IState> {
 
         axios({
             method: 'post',
-            url: `http://localhost:8080/users/${this.props.getAuth().username}/records`,
+            url: `${backendUrl}/users/${this.props.getAuth().username}/records`,
             data: body,
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${this.props.getAuth().token}`
             }
-        }).then(success => {
+        }).then(() => {
                 this.setState({
                     caption: "",
                     adText: "",

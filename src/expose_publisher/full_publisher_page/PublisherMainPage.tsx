@@ -6,6 +6,7 @@ import UserStats from "../user_profile_details/UserStats";
 import {withRouter} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import {Container, Row} from "react-bootstrap";
+import {backendUrl} from "../../constants";
 
 interface IPublisherProps extends RouteComponentProps<any> {
     authProvider: IAuthProvider
@@ -27,7 +28,7 @@ class PublisherMainPage extends React.Component<IPublisherProps, IPublisherState
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/users/${this.state.targetUsername}/top-banner`, {
+        axios.get(`${backendUrl}/users/${this.state.targetUsername}/top-banner`, {
             responseType: 'arraybuffer',
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then(success => {

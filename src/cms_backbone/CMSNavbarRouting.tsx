@@ -16,6 +16,7 @@ import "./local-styles.css"
 import 'bootstrap/dist/css/bootstrap.css';
 import MainPage from "./MainPage";
 import axios from "axios";
+import {backendUrl} from "../constants";
 
 interface IAuth {
     username: string,
@@ -53,7 +54,7 @@ class CMSNavbarRouting extends React.Component<RouteComponentProps<any>, IState>
     componentDidMount() {
         setInterval(() => {
             console.log("request refresh")
-            axios.get("http://localhost:8080/refresh-token", {
+            axios.get(`${backendUrl}/refresh-token`, {
                 headers: {'Authorization': `Bearer ${store.session.get('token')}`}
             }).then(success => {
                     store.session.set('token', success.data);

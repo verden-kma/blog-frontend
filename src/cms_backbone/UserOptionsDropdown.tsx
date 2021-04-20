@@ -3,6 +3,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import store from "store2"
 import axios from "axios";
 import {IAuth} from "./CMSNavbarRouting";
+import {backendUrl} from "../constants";
 
 class UserOptionsDropdown extends React.Component<any, IAuth> {
     constructor(props: any) {
@@ -15,7 +16,7 @@ class UserOptionsDropdown extends React.Component<any, IAuth> {
     }
 
     doLogout() {
-        axios.post("http://localhost:8080/logout-invalidate", {}, {
+        axios.post(`${backendUrl}/logout-invalidate`, {}, {
             headers: {'Authorization': `Bearer ${this.state.token}`}
         }).then(() => {
             console.log("logged out on server");

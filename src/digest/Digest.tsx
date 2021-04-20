@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from 'axios'
 import Thumbnail from "./Thumbnail";
 import {IAuthProvider} from "../cms_backbone/CMSNavbarRouting";
 import {Container, Row} from "react-bootstrap";
+import {backendUrl} from "../constants";
 
 interface IState {
     records: Array<IMiniRecord>,
@@ -37,7 +38,7 @@ class Digest extends React.Component<IAuthProvider, IState> {
     }
 
     loadNextPage() {
-        axios.get('http://localhost:8080/digest', {
+        axios.get(`${backendUrl}/digest`, {
             params: {page: this.state.nextPage},
             headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
         }).then((response: AxiosResponse<ILazyRecordsPage>) => {

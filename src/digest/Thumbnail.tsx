@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import {IAuthProvider} from "../cms_backbone/CMSNavbarRouting";
 import {IMiniRecord} from "./Digest";
+import {backendUrl} from "../constants";
 
 interface IProps {
     authProvider: IAuthProvider,
@@ -19,7 +20,7 @@ class Thumbnail extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/users/${this.props.data.publisher}/records/${this.props.data.recordOwnId}/image-min`,
+        axios.get(`${backendUrl}/users/${this.props.data.publisher}/records/${this.props.data.recordOwnId}/image-min`,
             {
                 responseType: 'arraybuffer',
                 headers: {

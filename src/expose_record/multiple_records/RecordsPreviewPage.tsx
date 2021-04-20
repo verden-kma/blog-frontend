@@ -7,6 +7,7 @@ import ReactPaginate from 'react-paginate';
 import genericHandleEvaluation from "../../utils/GenericHandleEvaluation";
 import {Container, Row} from "react-bootstrap";
 import "./pagination-styles.css";
+import {backendUrl} from "../../constants";
 
 interface IProps extends RouteComponentProps<any> {
     authProvider: IAuthProvider,
@@ -69,15 +70,15 @@ class RecordsPreviewPage extends React.Component<IProps, IState> {
 
     getUrl(): string {
         if (this.props.previewContext === RecordPreviewContext.PUBLISHER_RECORDS) {
-            return `http://localhost:8080/users/${this.props.targetUsername}/records`;
+            return `${backendUrl}/users/${this.props.targetUsername}/records`;
         }
         if (this.props.previewContext === RecordPreviewContext.SEARCH) {
             const paramValue = new URLSearchParams(this.props.location.search).get("query");
             // const paramValue = this.props.match.params.query;
-            return `http://localhost:8080/search/records?title=${paramValue}`
+            return `${backendUrl}/search/records?title=${paramValue}`;
         }
         if (this.props.previewContext === RecordPreviewContext.RECOMMENDATION) {
-            return "http://localhost:8080/recommendations/evaluations"
+            return `${backendUrl}/recommendations/evaluations`;
         }
         throw "Unknown RecordPreviewContext";
     }
@@ -106,7 +107,7 @@ class RecordsPreviewPage extends React.Component<IProps, IState> {
 
     loadImages() {
         this.state.recordJsons.forEach(({publisher, id}: IRecord) => {
-            axios.get(`http://localhost:8080/users/${publisher}/records/${id}/image-min`,
+            axios.get(`${backendUrl}/users/${publisher}/records/${id}/image-min`,
                 {
                     responseType: 'arraybuffer',
                     headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}

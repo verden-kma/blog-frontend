@@ -5,6 +5,7 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 import PublisherCard from "./PublisherCard";
 import {IMiniRecord} from "../../digest/Digest";
 import handleFollow, {IPublisherFollow} from "../../utils/HandleFollow";
+import {backendUrl} from "../../constants";
 
 interface IProps extends RouteComponentProps<any> {
     authProvider: IAuthProvider,
@@ -69,14 +70,14 @@ class PublishersPreview extends React.Component<IProps, IState> {
     getUrl(): string {
         if (this.props.previewContext === PublisherPreviewContext.SEARCH) {
             const publisherPrefix = new URLSearchParams(this.props.location.search).get("query");
-            return `http://localhost:8080/search/publishers?name=${publisherPrefix}`;
+            return `${backendUrl}/search/publishers?name=${publisherPrefix}`;
         }
         if (this.props.previewContext === PublisherPreviewContext.RECOMMENDATION)
-            return "http://localhost:8080/recommendations/subscriptions";
+            return `${backendUrl}/recommendations/subscriptions`;
         if (this.props.previewContext === PublisherPreviewContext.FOLLOWERS)
-            return `http://localhost:8080/users/${this.props.match.params.publisher}/followers`;
+            return `${backendUrl}/users/${this.props.match.params.publisher}/followers`;
         if (this.props.previewContext === PublisherPreviewContext.SUBSCRIBERS)
-            return `http://localhost:8080/users/${this.props.match.params.username}/subscriptions`;
+            return `${backendUrl}/users/${this.props.match.params.username}/subscriptions`;
         throw new Error("Unknown PublisherPreviewContext");
     }
 
@@ -136,7 +137,7 @@ class PublishersPreview extends React.Component<IProps, IState> {
 
             this.setState(updState);
             updState.publisherJsons.forEach((pd: IPublisher) => {
-                axios.get(`http://localhost:8080/users/${pd.publisher}/avatar`, {
+                axios.get(`${backendUrl}/users/${pd.publisher}/avatar`, {
                     responseType: 'arraybuffer',
                     headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
                 }).then(success => {
@@ -153,7 +154,7 @@ class PublishersPreview extends React.Component<IProps, IState> {
                     }
                 }, error => console.log(error));
 
-                axios.get(`http://localhost:8080/users/${pd.publisher}/top-banner`, {
+                axios.get(`${backendUrl}/users/${pd.publisher}/top-banner`, {
                     responseType: 'arraybuffer',
                     headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
                 }).then(success => {
@@ -171,7 +172,7 @@ class PublishersPreview extends React.Component<IProps, IState> {
                 }, error => console.log(error))
 
                 if (pd.lastRecords)
-                    axios.get(`http://localhost:8080/users/${pd.publisher}/records/short`, {
+                    axios.get(`${backendUrl}/users/${pd.publisher}/records/short`, {
                         params: {
                             rids: pd.lastRecords.join(",")
                         },

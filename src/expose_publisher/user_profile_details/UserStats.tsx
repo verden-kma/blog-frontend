@@ -6,6 +6,7 @@ import handleFollow, {IPublisherFollow} from "../../utils/HandleFollow";
 import "../publisher-styles.css"
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {backendUrl} from "../../constants";
 
 interface IProps {
     authProvider: IAuthProvider,
@@ -67,7 +68,7 @@ class UserStats extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/users/${this.props.targetUsername}/avatar`, {
+        axios.get(`${backendUrl}/users/${this.props.targetUsername}/avatar`, {
             responseType: 'arraybuffer',
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then(success => {
@@ -78,7 +79,7 @@ class UserStats extends React.Component<IProps, IState> {
                 }))
             }
         }, error => console.log(error));
-        axios.get(`http://localhost:8080/users/${this.props.targetUsername}`, {
+        axios.get(`${backendUrl}/users/${this.props.targetUsername}`, {
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then((success: AxiosResponse<IUserData>) => {
             this.setState(oldState => ({...oldState, userData: success.data}))

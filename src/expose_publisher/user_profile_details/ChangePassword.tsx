@@ -4,6 +4,7 @@ import {Button, Container, Form, Modal, Row} from "react-bootstrap";
 import {RouteComponentProps, withRouter} from "react-router";
 import axios from "axios";
 import store from "store2"
+import {backendUrl} from "../../constants";
 
 interface IProps extends IAuthProvider, RouteComponentProps<any> {
 }
@@ -39,7 +40,7 @@ class ChangePassword extends React.Component<IProps, IState> {
 
     handlePasswordChange() {
         const passUpd = {currentPassword: this.state.suggestedCurrPassword, newPassword: this.state.newPassword};
-        axios.patch("http://localhost:8080/users/password", passUpd, {
+        axios.patch(`${backendUrl}/users/password`, passUpd, {
             headers: {'Authorization': `Bearer ${this.props.getAuth().token}`}
         }).then(() => {
             store.session.clearAll();

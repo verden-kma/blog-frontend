@@ -1,6 +1,7 @@
 import React from 'react';
 import {RouteComponentProps, withRouter} from "react-router";
 import axios, {AxiosResponse} from "axios";
+import {backendUrl} from "../constants";
 
 interface IState {
     hasConfirmed: boolean,
@@ -26,7 +27,7 @@ class ConfirmRegistration extends React.Component<RouteComponentProps<any>, ISta
 
     componentDidMount() {
         const token = this.props.match.params.token;
-        axios.post(`http://localhost:8080/users/confirm/${token}`)
+        axios.post(`${backendUrl}/users/confirm/${token}`)
             .then((succ: AxiosResponse<ISignupResponse>) => this.setState({
                 hasConfirmed: true,
                 username: succ.data.username,

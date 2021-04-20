@@ -4,6 +4,7 @@ import axios, {AxiosResponse} from "axios";
 import store from "store2";
 import {Button, ButtonGroup, Container, Form, FormControl, FormGroup, FormLabel, Row, Spinner} from "react-bootstrap";
 import "./auth-styles.css"
+import {backendUrl} from "../constants";
 
 interface IState {
     username: string,
@@ -38,7 +39,7 @@ class Login extends React.Component<any, IState> {
     handleLogin(event: React.FormEvent) {
         event.preventDefault();
         this.setState({loginRequested: true})
-        axios.post("http://localhost:8080/login", {
+        axios.post(`${backendUrl}/login`, {
             username: this.state.username,
             password: this.state.password
         }).then((response: AxiosResponse<LoginResponse>) => {

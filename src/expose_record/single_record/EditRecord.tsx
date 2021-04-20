@@ -4,6 +4,7 @@ import {Redirect, RouteComponentProps, withRouter} from "react-router";
 import axios, {AxiosResponse} from "axios";
 import {IRecord} from "../multiple_records/RecordsPreviewPage";
 import {Badge, Button, Container, Form, FormControl, FormGroup, FormLabel, Image, Row} from "react-bootstrap";
+import {backendUrl} from "../../constants";
 
 interface IProps extends RouteComponentProps<any> {
     authProvider: IAuthProvider
@@ -34,7 +35,7 @@ class EditRecord extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}`, {
+        axios.get(`${backendUrl}/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}`, {
             headers: {Authorization: `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then((success: AxiosResponse<IRecord>) => {
             const record = success.data;
@@ -48,7 +49,7 @@ class EditRecord extends React.Component<IProps, IState> {
             })
         });
 
-        axios.get(`http://localhost:8080/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}/image-min`, {
+        axios.get(`${backendUrl}/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}/image-min`, {
             headers: {Authorization: `Bearer ${this.props.authProvider.getAuth().token}`},
             responseType: "arraybuffer"
         }).then(success => {
@@ -64,7 +65,7 @@ class EditRecord extends React.Component<IProps, IState> {
 
     handleSubmit(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        axios.patch(`http://localhost:8080/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}`, {
+        axios.patch(`${backendUrl}/users/${this.props.authProvider.getAuth().username}/records/${this.props.match.params.recordId}`, {
                 caption: this.state.newCaption,
                 adText: this.state.newAdText
             }, {headers: {Authorization: `Bearer ${this.props.authProvider.getAuth().token}`}}

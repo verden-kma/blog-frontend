@@ -12,6 +12,7 @@ import {Button, Container, Image, Modal, ModalBody, ModalFooter, ModalTitle, Row
 import ModalHeader from "react-bootstrap/ModalHeader";
 import RecordTargetRecom from "./RecordTargetRecom";
 import "./../record-styles.css";
+import {backendUrl} from "../../constants";
 
 
 interface IProps extends RouteComponentProps<any> {
@@ -90,7 +91,7 @@ class FullRecordView extends React.Component<IProps, IState> {
     loadNextComments() {
         if (!this.state.hasMoreCommentPages) return;
         const {publisher, recordId} = this.props.match.params;
-        axios.get(`http://localhost:8080/users/${publisher}/records/${recordId}/comments`, {
+        axios.get(`${backendUrl}/users/${publisher}/records/${recordId}/comments`, {
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`},
             params: {block: this.state.nextCommentPage}
         }).then(success => {
@@ -105,7 +106,7 @@ class FullRecordView extends React.Component<IProps, IState> {
                 }
             }, () => {
                 success.data.pageItems.forEach((comment: IComment, index: number) => {
-                    axios.get(`http://localhost:8080/users/${comment.commentator}/avatar`, {
+                    axios.get(`${backendUrl}/users/${comment.commentator}/avatar`, {
                         responseType: 'arraybuffer',
                         headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
                     }).then(success => {
@@ -132,7 +133,7 @@ class FullRecordView extends React.Component<IProps, IState> {
     sendComment(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const {publisher, recordId} = this.props.match.params;
-        axios.post(`http://localhost:8080/users/${publisher}/records/${recordId}/comments`, {
+        axios.post(`${backendUrl}/users/${publisher}/records/${recordId}/comments`, {
             text: this.state.newCommentText
         }, {headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}})
             .then(success => {
@@ -168,7 +169,7 @@ class FullRecordView extends React.Component<IProps, IState> {
 
     componentDidMount() {
         const {publisher, recordId} = this.props.match.params;
-        axios.get(`http://localhost:8080/users/${publisher}/records/${recordId}`, {
+        axios.get(`${backendUrl}/users/${publisher}/records/${recordId}`, {
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then(success => {
             this.setState((oldState: IState) => {
@@ -179,7 +180,7 @@ class FullRecordView extends React.Component<IProps, IState> {
             });
         }, error => console.log(error));
 
-        axios.get(`http://localhost:8080/users/${publisher}/records/${recordId}/image`, {
+        axios.get(`${backendUrl}/users/${publisher}/records/${recordId}/image`, {
             responseType: 'arraybuffer',
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then(success => {
@@ -196,7 +197,7 @@ class FullRecordView extends React.Component<IProps, IState> {
     handleDelete() {
         if (this.state.recordJson === undefined) return;
         const {publisher, id} = this.state.recordJson;
-        axios.delete(`http://localhost:8080/users/${publisher}/records/${id}`, {
+        axios.delete(`${backendUrl}/users/${publisher}/records/${id}`, {
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         }).then(() => this.setState({deleteAccomplished: true}), error => alert(error));
     }
@@ -216,7 +217,7 @@ class FullRecordView extends React.Component<IProps, IState> {
         }
         const {publisher, id} = this.state.recordJson;
         const {targetId, targetBlock} = this.state.commDel;
-        axios.delete(`http://localhost:8080/users/${publisher}/records/${id}/comments/${targetId}`, {
+        axios.delete(`${backendUrl}/users/${publisher}/records/${id}/comments/${targetId}`, {
             headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
         })
             .then(() =>

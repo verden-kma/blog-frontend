@@ -3,6 +3,7 @@ import {IAuthProvider} from "../../cms_backbone/CMSNavbarRouting";
 import axios, {AxiosResponse} from "axios";
 import {Image} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {backendUrl} from "../../constants";
 
 interface IProps {
     authProvider: IAuthProvider,
@@ -28,10 +29,10 @@ class RecordTargetRecom extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/recommendations/evaluations/${this.props.publisher}/${this.props.recordId}`,
+        axios.get(`${backendUrl}/recommendations/evaluations/${this.props.publisher}/${this.props.recordId}`,
             {headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}})
             .then((success: AxiosResponse<Array<IRecordId>>) => success.data.forEach(recId => {
-                axios.get(`http://localhost:8080/users/${recId.publisher}/records/${recId.recordOwnId}/image-icon`,
+                axios.get(`${backendUrl}/users/${recId.publisher}/records/${recId.recordOwnId}/image-icon`,
                     {
                         responseType: "arraybuffer",
                         headers: {'Authorization': `Bearer ${this.props.authProvider.getAuth().token}`}
